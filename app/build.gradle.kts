@@ -49,6 +49,10 @@ dependencies {
     implementation ("com.google.dagger:dagger-android-support:2.23.2")
     kapt ("com.google.dagger:dagger-android-processor:2.23.2")
 
+    // Glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    kapt ("com.github.bumptech.glide:compiler:4.16.0")
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
