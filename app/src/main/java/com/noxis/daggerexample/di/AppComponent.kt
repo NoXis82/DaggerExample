@@ -2,12 +2,22 @@ package com.noxis.daggerexample.di
 
 import android.app.Application
 import com.noxis.daggerexample.BaseApplication
+import com.noxis.daggerexample.viewmodels.ViewModelProviderFactory
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import javax.inject.Singleton
 
-@Component(modules = [AndroidSupportInjectionModule::class, ActivityBuildersModule::class, AppModule::class])
+@Singleton
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        ActivityBuildersModule::class,
+        AppModule::class,
+        ViewModelsFactoryModule::class
+    ]
+)
 interface AppComponent : AndroidInjector<BaseApplication> {
 
     @Component.Builder

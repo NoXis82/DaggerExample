@@ -39,16 +39,15 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     //Android Architecture Components
-//    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
-//    implementation ("androidx.lifecycle:lifecycle-common-java8:2.7.0")
-//    implementation ("androidx.lifecycle:lifecycle-reactivestreams-ktx:2.7.0")
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation ("androidx.lifecycle:lifecycle-common-java8:2.7.0")
+    implementation ("androidx.lifecycle:lifecycle-reactivestreams-ktx:2.7.0")
     //Dagger2
     implementation ("com.google.dagger:dagger:2.23.2")
     kapt ("com.google.dagger:dagger-compiler:2.23.2")
     implementation ("com.google.dagger:dagger-android:2.23.2")
     implementation ("com.google.dagger:dagger-android-support:2.23.2")
     kapt ("com.google.dagger:dagger-android-processor:2.23.2")
-
     // Glide
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     kapt ("com.github.bumptech.glide:compiler:4.16.0")
