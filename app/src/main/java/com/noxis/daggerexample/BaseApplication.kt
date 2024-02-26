@@ -1,6 +1,7 @@
 package com.noxis.daggerexample
 
 import com.noxis.daggerexample.di.DaggerAppComponent
+import com.noxis.daggerexample.ui.auth.AuthViewModel
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 
