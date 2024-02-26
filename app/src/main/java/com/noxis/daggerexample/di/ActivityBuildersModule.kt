@@ -1,5 +1,6 @@
 package com.noxis.daggerexample.di
 
+import com.noxis.daggerexample.di.auth.AuthNetworkModule
 import com.noxis.daggerexample.di.auth.AuthViewModelsModule
 import com.noxis.daggerexample.ui.auth.AuthActivity
 import dagger.Module
@@ -9,7 +10,10 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector(
-        modules = [AuthViewModelsModule::class]
+        modules = [
+            AuthViewModelsModule::class,
+            AuthNetworkModule::class
+        ]
     )
     abstract fun contributesAuthActivity(): AuthActivity
 }
