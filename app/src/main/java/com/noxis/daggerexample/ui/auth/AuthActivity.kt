@@ -4,13 +4,16 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.RequestManager
 import com.noxis.daggerexample.R
+import com.noxis.daggerexample.until.AuthStatus
 import com.noxis.daggerexample.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
@@ -28,12 +31,14 @@ class AuthActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var requestManager: RequestManager
     private var userId: EditText? = null
+    private var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
         viewModel = ViewModelProvider(this, providerFactory)[AuthViewModel::class.java]
         userId = findViewById(R.id.user_id_input)
+        progressBar = findViewById(R.id.progress_bar)
         findViewById<Button>(R.id.login_button).setOnClickListener {
             when (it.id) {
                 R.id.login_button -> {
@@ -47,7 +52,30 @@ class AuthActivity : DaggerAppCompatActivity() {
 
     private fun subscribeObservers() {
         viewModel?.observerUser()?.observe(this) {
-            if (it != null) Log.d(TAG, "User: $it")
+            it?.let { resourcesUser ->
+                when (resourcesUser.status) {
+                    AuthStatus.LOADING -> progressBar?.visibility = View.VISIBLE
+
+                    AuthStatus.ERROR -> {
+                        Log.e(TAG, "Error: ${resourcesUser.message}")
+                        progressBar?.visibility = View.GONE
+                        Toast.makeText(
+                            this,
+                            "${resourcesUser.message}. Did you enter a number between 0 and 10?",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    AuthStatus.AUTHENTICATED -> {
+                        progressBar?.visibility = View.GONE
+                        Log.d(TAG, "AUTHENTICATED: ${resourcesUser.data}")
+                    }
+
+                    AuthStatus.NOT_AUTHENTICATED -> {
+                        progressBar?.visibility = View.GONE
+                    }
+                }
+            }
         }
     }
 
