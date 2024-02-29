@@ -2,7 +2,7 @@ package com.noxis.daggerexample.di
 
 import android.app.Application
 import com.noxis.daggerexample.BaseApplication
-import com.noxis.daggerexample.viewmodels.ViewModelProviderFactory
+import com.noxis.daggerexample.SessionManager
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -20,6 +20,8 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent : AndroidInjector<BaseApplication> {
+
+    val sessionManager: SessionManager
 
     @Component.Builder
     interface Builder {
