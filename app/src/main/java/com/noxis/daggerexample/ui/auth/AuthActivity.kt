@@ -51,7 +51,7 @@ class AuthActivity : DaggerAppCompatActivity() {
     }
 
     private fun subscribeObservers() {
-        viewModel?.observerUser()?.observe(this) {
+        viewModel?.observerAuthState()?.observe(this) {
             it?.let { resourcesUser ->
                 when (resourcesUser.status) {
                     AuthStatus.LOADING -> progressBar?.visibility = View.VISIBLE

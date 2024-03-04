@@ -13,7 +13,8 @@ class SessionManager @Inject constructor() {
     private val cachedUser = MediatorLiveData<Resource<User>>()
 
     fun authenticateWithId(source: LiveData<Resource<User>>) {
-        if (cachedUser.isInitialized) {
+        Log.d(TAG, "Session Manger authenticateWithId : ${source.value?.data}")
+        if (cachedUser.value == null) {
             cachedUser.value = Resource.Loading()
             cachedUser.addSource(source) {
                 cachedUser.value = it
