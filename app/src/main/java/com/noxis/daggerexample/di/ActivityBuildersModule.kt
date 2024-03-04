@@ -1,5 +1,6 @@
 package com.noxis.daggerexample.di
 
+import com.noxis.daggerexample.MainActivity
 import com.noxis.daggerexample.di.auth.AuthNetworkModule
 import com.noxis.daggerexample.di.auth.AuthViewModelsModule
 import com.noxis.daggerexample.ui.auth.AuthActivity
@@ -16,5 +17,7 @@ abstract class ActivityBuildersModule {
         ]
     )
     abstract fun contributesAuthActivity(): AuthActivity
-}
 
+    @ContributesAndroidInjector
+    abstract fun contributesMainActivity(): MainActivity
+}

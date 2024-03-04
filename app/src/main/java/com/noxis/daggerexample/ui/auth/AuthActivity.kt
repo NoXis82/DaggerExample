@@ -1,5 +1,6 @@
 package com.noxis.daggerexample.ui.auth
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
@@ -12,6 +13,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.RequestManager
+import com.noxis.daggerexample.MainActivity
 import com.noxis.daggerexample.R
 import com.noxis.daggerexample.until.AuthStatus
 import com.noxis.daggerexample.viewmodels.ViewModelProviderFactory
@@ -51,7 +53,7 @@ class AuthActivity : DaggerAppCompatActivity() {
     }
 
     private fun subscribeObservers() {
-        viewModel?.observerUser()?.observe(this) {
+        viewModel?.observerAuthState()?.observe(this) {
             it?.let { resourcesUser ->
                 when (resourcesUser.status) {
                     AuthStatus.LOADING -> progressBar?.visibility = View.VISIBLE
@@ -69,6 +71,7 @@ class AuthActivity : DaggerAppCompatActivity() {
                     AuthStatus.AUTHENTICATED -> {
                         progressBar?.visibility = View.GONE
                         Log.d(TAG, "AUTHENTICATED: ${resourcesUser.data}")
+                        onLoginSuccess()
                     }
 
                     AuthStatus.NOT_AUTHENTICATED -> {
@@ -86,6 +89,10 @@ class AuthActivity : DaggerAppCompatActivity() {
 
     private fun setLogo() {
         requestManager.load(logo).into((findViewById<ImageView>(R.id.login_logo)))
+    }
+
+    private fun onLoginSuccess() {
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     companion object {
