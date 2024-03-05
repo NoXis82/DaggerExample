@@ -3,13 +3,19 @@ package com.noxis.daggerexample
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import com.noxis.daggerexample.ui.main.profile.ProfileFragment
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Toast.makeText(applicationContext, TAG, Toast.LENGTH_SHORT).show()
+        testFragment()
+    }
+
+    private fun testFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, ProfileFragment())
+            .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
