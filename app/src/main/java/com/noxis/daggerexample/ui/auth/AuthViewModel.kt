@@ -9,6 +9,7 @@ import com.noxis.daggerexample.SessionManager
 import com.noxis.daggerexample.models.User
 import com.noxis.daggerexample.repository.auth.AuthApi
 import com.noxis.daggerexample.until.Resource
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ class AuthViewModel @Inject constructor(
 
     private val authUser = MediatorLiveData<Resource<User>>()
     fun authenticateWithId(userId: Int) {
-        Log.d(TAG, "authenticateWithId: attempting to login")
+        Log.d(TAG, "authenticateWithId: attempting to login userId: $userId")
         sessionManager.authenticateWithId(queryUserId(userId))
     }
 
@@ -28,14 +29,15 @@ class AuthViewModel @Inject constructor(
         authApi.getFakeStuff(userId)
             .subscribeOn(Schedulers.io())
             .toObservable()
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { user ->
-                    authUser.postValue(user?.let {
+                    authUser.value = user?.let {
                         Resource.Authenticated(data = it)
-                    } ?: Resource.Error(message = "User not found"))
+                    } ?: Resource.Error(message = "User not found")
                 },
                 {
-                    authUser.postValue(Resource.Error(message = "Could not authenticate"))
+                    authUser.value = Resource.Error(message = "Could not authenticate")
                 }
             )
         return authUser
