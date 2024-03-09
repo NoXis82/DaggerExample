@@ -3,7 +3,7 @@ package com.noxis.daggerexample
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.noxis.daggerexample.ui.main.profile.ProfileFragment
+import com.noxis.daggerexample.ui.main.posts.PostsFragment
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +14,7 @@ class MainActivity : BaseActivity() {
 
     private fun testFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, ProfileFragment())
+            .replace(R.id.main_container, PostsFragment())
             .commit()
     }
 
