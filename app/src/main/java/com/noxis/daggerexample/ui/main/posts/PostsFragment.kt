@@ -1,6 +1,7 @@
 package com.noxis.daggerexample.ui.main.posts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,16 @@ class PostsFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModelPosts = ViewModelProvider(this, providerFactory)[PostsViewModel::class.java]
         recyclerView = view.findViewById(R.id.recycler_view)
+        subscribeObserver()
+    }
+
+    private fun subscribeObserver() {
+        viewModelPosts?.observerPosts()?.removeObservers(viewLifecycleOwner)
+        viewModelPosts?.observerPosts()?.observe(viewLifecycleOwner) {
+            if (it.data?.isNotEmpty() == true) {
+                Log.d(TAG, "subscribeObserver posts: ${it.data}")
+            }
+        }
     }
 
     companion object {
