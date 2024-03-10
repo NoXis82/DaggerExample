@@ -14,7 +14,7 @@ class SessionManager @Inject constructor() {
 
     fun authenticateWithId(source: LiveData<Resource<User>>) {
         Log.d(TAG, "Session Manger authenticateWithId : ${source.value?.data}")
-        if (cachedUser.value == null) {
+        if (cachedUser.value?.data == null) {
             cachedUser.value = Resource.Loading()
             cachedUser.addSource(source) {
                 cachedUser.value = it
