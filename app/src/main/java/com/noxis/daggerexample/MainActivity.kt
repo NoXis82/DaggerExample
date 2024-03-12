@@ -5,25 +5,30 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
-import com.noxis.daggerexample.ui.main.posts.PostsFragment
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var drawerLayout: DrawerLayout? = null
     private var navigationView: NavigationView? = null
+    private var navController: NavController? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
-        testFragment()
+        init()
     }
 
-    private fun testFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, PostsFragment())
-            .commit()
+    private fun init() {
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navController!!, drawerLayout)
+        NavigationUI.setupWithNavController(navigationView!!, navController!!)
+        navigationView?.setNavigationItemSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -44,11 +49,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
             R.id.nav_profile -> {
-
+                navController?.navigate(R.id.profileScreen)
             }
 
             R.id.nav_posts -> {
-
+                navController?.navigate(R.id.postsScreen)
             }
         }
         p0.isCheckable = true
