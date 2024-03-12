@@ -5,4 +5,6 @@
     <string name="email">Email: %1$s</string>
     <string name="username">Username: %1$s</string>
     <string name="website">Website: %1$s</string>
+    <string name="profile">Profile</string>
+    <string name="posts">Posts</string>
 </resources>
