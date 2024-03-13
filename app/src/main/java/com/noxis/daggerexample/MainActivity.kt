@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
@@ -31,6 +32,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         navigationView?.setNavigationItemSelectedListener(this)
     }
 
+    private fun isValidDestination(destination: Int): Boolean {
+        return destination != navController?.currentDestination?.id
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
@@ -42,6 +47,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 sessionManager.logOut()
                 return true
             }
+
+            android.R.id.home -> {
+                return if (drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
+                    drawerLayout?.closeDrawer(GravityCompat.START)
+                    true
+                } else {
+                    false
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -49,16 +63,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
             R.id.nav_profile -> {
-                navController?.navigate(R.id.profileScreen)
+                val navOptions = NavOptions.Builder().setPopUpTo(R.id.main, true).build()
+                navController?.navigate(R.id.profileScreen, null, navOptions)
             }
 
             R.id.nav_posts -> {
-                navController?.navigate(R.id.postsScreen)
+                if (isValidDestination(R.id.postsScreen)) {
+                    navController?.navigate(R.id.postsScreen)
+                }
             }
         }
         p0.isCheckable = true
         drawerLayout?.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(navController!!, drawerLayout)
     }
 
     companion object {
