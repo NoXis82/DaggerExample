@@ -8,11 +8,13 @@ import retrofit2.Retrofit
 
 @Module
 class MainNetworkModule {
+    @MainScope
     @Provides
     fun provideMainApi(retrofit: Retrofit): MainApi {
         return retrofit.create(MainApi::class.java)
     }
 
+    @MainScope
     @Provides
     fun provideAdapter(): PostsRecyclerAdapter {
         return PostsRecyclerAdapter()
